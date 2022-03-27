@@ -8,6 +8,7 @@ import ningenme.net.sample.domain.service.UserService;
 import ningenme.net.sample.domain.value.EncryptedPassword;
 import ningenme.net.sample.domain.value.RawPassword;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/users")
     public ResponseEntity<String> userPost(
@@ -27,7 +29,7 @@ public class UserController {
                         userPostRequestBody.getCode(),
                         userPostRequestBody.getId(),
                         userPostRequestBody.getMail(),
-                        EncryptedPassword.of(RawPassword.of(userPostRequestBody.getPassword()))
+                        EncryptedPassword.of(passwordEncoder, RawPassword.of(userPostRequestBody.getPassword()))
                 )
         );
         return ResponseEntity.ok("");

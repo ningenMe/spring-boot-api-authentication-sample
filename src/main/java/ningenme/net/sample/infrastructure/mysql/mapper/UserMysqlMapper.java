@@ -4,6 +4,7 @@ import lombok.NonNull;
 import ningenme.net.sample.infrastructure.mysql.dto.UserMysqlDto;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface UserMysqlMapper {
@@ -13,5 +14,11 @@ public interface UserMysqlMapper {
                     "VALUES (#{code},#{id},#{mail},#{encryptedPassword})"
     )
     void insert(@NonNull final UserMysqlDto userMysqlDto);
+
+    @Select(
+            "SELECT code, id, mail, encrypted_password FROM user " +
+                    "WHERE mail = #{mail}"
+    )
+    UserMysqlDto select(@NonNull final String mail);
 
 }

@@ -17,4 +17,8 @@ public class UserMysqlRepository {
         userMysqlMapper.insert(new UserMysqlDto(user));
     }
 
+    public User get(@NonNull final String mail) {
+        return userMysqlMapper.select(mail).getUser();
+    }
+
 }

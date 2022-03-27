@@ -2,7 +2,7 @@ package ningenme.net.sample.application.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import ningenme.net.sample.domain.value.AuthorityModel;
+import ningenme.net.sample.domain.value.Authority;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,19 +13,19 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class TestController {
 
-    @PreAuthorize("hasAuthority('"+ AuthorityModel.Value.COMIC +"')")
+    @PreAuthorize("hasAuthority('"+ Authority.Value.COMIC +"')")
     @GetMapping("/comic")
     public ResponseEntity<String> comicGet() {
         return ResponseEntity.ok("comic");
     }
 
-    @PreAuthorize("hasAuthority('"+ AuthorityModel.Value.ANIME +"')")
+    @PreAuthorize("hasAuthority('"+ Authority.Value.ANIME +"')")
     @GetMapping("/anime")
     public ResponseEntity<String> animeGet() {
         return ResponseEntity.ok("anime");
     }
 
-    @PreAuthorize("hasAuthority('"+ AuthorityModel.Value.GAME +"')")
+    @PreAuthorize("hasAuthority('"+ Authority.Value.GAME +"')")
     @GetMapping("/game")
     public ResponseEntity<String> gameGet() {
         return ResponseEntity.ok("game");

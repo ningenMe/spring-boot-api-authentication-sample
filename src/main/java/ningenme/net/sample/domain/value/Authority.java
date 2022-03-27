@@ -8,7 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import java.util.Objects;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public enum AuthorityModel implements GrantedAuthority {
+public enum Authority implements GrantedAuthority {
     COMIC(Value.COMIC),
     ANIME(Value.ANIME),
     GAME(Value.GAME),

@@ -4,6 +4,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ningenme.net.sample.domain.entity.User;
+import ningenme.net.sample.domain.value.AuthenticationParameter;
 import ningenme.net.sample.domain.value.SessionId;
 import ningenme.net.sample.infrastructure.mysql.UserMysqlRepository;
 import ningenme.net.sample.infrastructure.redis.UserRedisRepository;
@@ -25,8 +26,15 @@ public class UserService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String mail) throws UsernameNotFoundException {
-        return userMysqlRepository.get(mail);
+    public UserDetails loadUserByUsername(String json) throws UsernameNotFoundException {
+        final AuthenticationParameter authenticationParameter = AuthenticationParameter.of(json);
+
+        if(authenticationParameter.isCodeIdLogin()) {
+            return userMysqlRepository.getByCodeAndId(authenticationParameter.getCode(),authenticationParameter.getId());
+        }
+        else {
+            return userMysqlRepository.getByMail(authenticationParameter.getMail());
+        }
     }
 
     public void sessionPost(
@@ -34,4 +42,6 @@ public class UserService implements UserDetailsService {
             @NonNull final User user) {
         userRedisRepository.post(sessionId, user);
     }
+
+
 }

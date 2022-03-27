@@ -4,7 +4,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import ningenme.net.sample.domain.entity.User;
+import ningenme.net.sample.domain.value.Authority;
 import ningenme.net.sample.domain.value.EncryptedPassword;
+
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -22,6 +25,12 @@ public class UserMysqlDto {
     }
 
     public User getUser() {
-        return new User(code,id,mail, EncryptedPassword.of(encryptedPassword));
+        return new User(
+                code,
+                id,
+                mail,
+                EncryptedPassword.of(encryptedPassword),
+                List.of(Authority.COMIC,Authority.GAME) //FIXME 面倒なので認可はハードコーディング
+        );
     }
 }

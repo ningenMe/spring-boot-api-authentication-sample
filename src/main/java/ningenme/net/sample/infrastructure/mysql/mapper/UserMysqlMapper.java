@@ -19,6 +19,12 @@ public interface UserMysqlMapper {
             "SELECT code, id, mail, encrypted_password FROM user " +
                     "WHERE mail = #{mail}"
     )
-    UserMysqlDto select(@NonNull final String mail);
+    UserMysqlDto selectByMail(@NonNull final String mail);
+
+    @Select(
+            "SELECT code, id, mail, encrypted_password FROM user " +
+                    "WHERE code = #{code} AND id = #{id}"
+    )
+    UserMysqlDto selectByCodeAndId(@NonNull final String code, @NonNull final String id);
 
 }

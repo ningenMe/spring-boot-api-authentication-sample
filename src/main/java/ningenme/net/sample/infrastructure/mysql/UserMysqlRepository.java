@@ -17,8 +17,12 @@ public class UserMysqlRepository {
         userMysqlMapper.insert(new UserMysqlDto(user));
     }
 
-    public User get(@NonNull final String mail) {
-        return userMysqlMapper.select(mail).getUser();
+    public User getByMail(@NonNull final String mail) {
+        return userMysqlMapper.selectByMail(mail).getUser();
+    }
+
+    public User getByCodeAndId(@NonNull final String code, @NonNull final String id) {
+        return userMysqlMapper.selectByCodeAndId(code, id).getUser();
     }
 
 }

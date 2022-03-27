@@ -1,6 +1,7 @@
 package ningenme.net.sample.common.config;
 
 import lombok.RequiredArgsConstructor;
+import ningenme.net.sample.common.filter.CustomAuthenticationFilter;
 import ningenme.net.sample.common.handler.CustomAuthenticationFailureHandler;
 import ningenme.net.sample.common.handler.CustomAuthenticationSuccessHandler;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -32,14 +34,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginProcessingUrl("/login")
                 .permitAll()
-                .usernameParameter("mail")
-                .passwordParameter("password")
-                .successHandler(customAuthenticationSuccessHandler)
-                .failureHandler(customAuthenticationFailureHandler)
 
                 .and()
+                .addFilterBefore(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+
                 .csrf()
                 .disable();
+    }
+
+    @Bean
+    CustomAuthenticationFilter customAuthenticationFilter() throws Exception {
+        final CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter();
+        customAuthenticationFilter.setAuthenticationManager(authenticationManagerBean());
+        customAuthenticationFilter.setAuthenticationSuccessHandler(customAuthenticationSuccessHandler);
+        customAuthenticationFilter.setAuthenticationFailureHandler(customAuthenticationFailureHandler);
+        return customAuthenticationFilter;
     }
 
     @Bean

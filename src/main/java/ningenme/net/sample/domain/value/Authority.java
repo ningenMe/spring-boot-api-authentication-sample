@@ -5,7 +5,9 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public enum Authority implements GrantedAuthority {
@@ -27,4 +29,7 @@ public enum Authority implements GrantedAuthority {
         return value;
     }
 
+    public static List<String> getValueList(@NonNull final List<Authority> authorityList) {
+        return authorityList.stream().map(Authority::getAuthority).collect(Collectors.toUnmodifiableList());
+    }
 }

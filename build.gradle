@@ -19,6 +19,8 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok:1.18.22'
 	implementation 'mysql:mysql-connector-java:8.0.28'
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
+	implementation 'org.springframework.data:spring-data-redis:2.6.3'
+	implementation 'io.lettuce:lettuce-core:6.1.8.RELEASE'
 }
 
 tasks.named('test') {

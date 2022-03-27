@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import ningenme.net.sample.domain.entity.User;
 import ningenme.net.sample.domain.value.SessionId;
 import ningenme.net.sample.infrastructure.mysql.UserMysqlRepository;
+import ningenme.net.sample.infrastructure.redis.UserRedisRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 public class UserService implements UserDetailsService {
 
     private final UserMysqlRepository userMysqlRepository;
+    private final UserRedisRepository userRedisRepository;
 
     public void post(@NonNull final User user) {
         userMysqlRepository.post(user);
@@ -24,16 +26,12 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String mail) throws UsernameNotFoundException {
-        log.info(mail);
-        User user = userMysqlRepository.get(mail);
-        log.info(user.toString());
-        return user;
+        return userMysqlRepository.get(mail);
     }
 
     public void sessionPost(
             @NonNull final SessionId sessionId,
             @NonNull final User user) {
-        //TODO redisへの永続化
-        return ;
+        userRedisRepository.post(sessionId, user);
     }
 }

@@ -1,4 +1,4 @@
-CREATE TABLE `user` (
+CREATE TABLE `web_user` (
   `code`  varchar(255) NOT NULL,
   `id`    varchar(255) NOT NULL,
   `mail`  varchar(255) NOT NULL,

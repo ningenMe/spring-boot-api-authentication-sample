@@ -5,7 +5,7 @@ import lombok.NonNull;
 import ningenme.net.sample.domain.value.EncryptedPassword;
 
 @Data
-public class User {
+public class WebUser {
 
     @NonNull
     private final String code;

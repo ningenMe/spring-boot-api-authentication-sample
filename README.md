@@ -42,5 +42,5 @@ cd script
 ./users-me-get.sh <sessionId> 
 
 # 全部まとめて見る時は下記
-./check.sh
+./check.sh <sessionId>
 ```

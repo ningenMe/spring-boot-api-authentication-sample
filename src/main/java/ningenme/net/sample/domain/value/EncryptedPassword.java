@@ -13,7 +13,11 @@ public class EncryptedPassword {
 
     private final static PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
-    public static EncryptedPassword of(@NonNull final String password) {
-        return new EncryptedPassword(passwordEncoder.encode(password));
+    public static EncryptedPassword of(@NonNull final RawPassword rawPassword) {
+        return new EncryptedPassword(passwordEncoder.encode(rawPassword.getValue()));
+    }
+
+    public static EncryptedPassword of(@NonNull final String encryptedPassword) {
+        return new EncryptedPassword(encryptedPassword);
     }
 }

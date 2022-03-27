@@ -16,15 +16,27 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class UserService {
+public class AuthenticationUserService implements UserDetailsService {
 
     private final UserMysqlRepository userMysqlRepository;
+    private final UserRedisRepository userRedisRepository;
 
-    public void post(@NonNull final User user) {
-        userMysqlRepository.post(user);
+    @Override
+    public UserDetails loadUserByUsername(String json) throws UsernameNotFoundException {
+        final AuthenticationParameter authenticationParameter = AuthenticationParameter.of(json);
+
+        if(authenticationParameter.isCodeIdLogin()) {
+            return userMysqlRepository.getByCodeAndId(authenticationParameter.getCode(),authenticationParameter.getId());
+        }
+        else {
+            return userMysqlRepository.getByMail(authenticationParameter.getMail());
+        }
     }
 
+    public void post(
+            @NonNull final SessionId sessionId,
+            @NonNull final User user) {
+        userRedisRepository.post(sessionId, user);
     }
-
 
 }

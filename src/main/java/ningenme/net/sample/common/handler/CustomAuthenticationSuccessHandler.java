@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ningenme.net.sample.domain.entity.SessionCookie;
 import ningenme.net.sample.domain.entity.User;
+import ningenme.net.sample.domain.service.AuthenticationUserService;
 import ningenme.net.sample.domain.service.UserService;
 import ningenme.net.sample.domain.value.SessionId;
 import org.springframework.security.core.Authentication;
@@ -20,12 +21,12 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
-    private final UserService userService;
+    private final AuthenticationUserService authenticationUserService;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         final SessionId sessionId = new SessionId();
-        userService.sessionPost(sessionId, (User) authentication.getPrincipal());
+        authenticationUserService.post(sessionId, (User) authentication.getPrincipal());
         response.addCookie(SessionCookie.getCookie(sessionId));
     }
 

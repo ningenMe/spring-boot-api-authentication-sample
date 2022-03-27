@@ -3,7 +3,7 @@ package ningenme.net.sample.application.request;
 import lombok.Data;
 
 @Data
-public class WebUserPostRequestBody {
+public class UserPostRequestBody {
     private String code;
     private String id;
     private String mail;
